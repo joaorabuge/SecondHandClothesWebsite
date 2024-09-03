@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>{{ roupa.marca }} {{ roupa.modelo }}</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+
+<div class="foto" style="padding-top: 50px">
+    <img src="{{ roupa.foto.url }}" alt="" style="width:100%;height: 350px;width: auto;display:inline-block;vertical-align:top;padding-right: 50px"></a>
+    <div class="detalhe" style="display:inline-block">
+        <h3>{{ roupa.marca }} {{ roupa.modelo }}</h3>
+        <p>Preço: {{ roupa.preco }}€</p>
+        <p>Marca: {{ roupa.marca }}</p>
+        <p>Modelo: {{ roupa.modelo }}</p>
+        <p>Condição: {{ roupa.estado }}</p>
+        <p>Descrição: {{ roupa.descricao }}</p>
+        <p>Para mais informações contacte o vendedor: {{ email }}</p>
+    </div>
+    <div class="w3-right">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'addcarrinho' smartphone.id %}" class="w3-bar-item w3-button" style="font-size: large">
+            <h3>Adicionar ao carrinho</h3>
+        </a>
+        <br>
+        <a href="{% url 'compra' smartphone.id %}" class="w3-bar-item w3-button" style="font-size: large">
+            <h3>Comprar</h3>
+        </a>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        {% if smartphone.cliente_id == cliente.id %}
+        <a href="{% url 'apagaranuncio' smartphone.id %}" class="w3-bar-item w3-button" style="font-size: large">
+            <h3>Remover Anúncio</h3>
+        </a>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

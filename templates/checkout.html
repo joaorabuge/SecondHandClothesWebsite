@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    {% endblock %}
+</head>
+<div>
+
+{% block content %}
+    <div class="w3-center">
+    {% if listaCompras %}
+                {% for roupas in listaCompras %}
+                    <div class="detalhes" style="background-color: white;border: 50px;border-color: black;white-space: nowrap">
+                     <a href="{% url 'especificacoes' roupas.id %}" style="text-decoration: none; border: 0" >
+                        <div class="w3-quarter" style="display:inline-block;vertical-align:top;padding-right: 35px">
+                            <img src="{{ roupas.foto.url }}" alt="" style="width:100%;height: 150px;width: auto">
+                        </div>
+                        <div style="display:inline-block">
+                            <h2>{{ roupas.marca }} {{ roupas.tamanho }} - {{ roupas.preco }}€</h2></a>
+                            <h3>{{ roupas.preco }}€</h3></a>
+                            <a href="{% url 'apagardocarrinho' roupas.id %}" style="text-decoration: none; border: 0" >
+                                <h4 style="color: red">X</h4></a>
+                        </div>
+                    </div>
+                    <br><br><br><br><br><br><br>
+                {% endfor %}
+            {% endif %}
+            <h2> <a href="{% url 'compramultipla' %}"> <button class="w3-bar-item w3-button">Comprar</button></a> </h2>
+    </div>
+{% endblock %}
+
+</body>
+</html>

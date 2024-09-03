@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block vazio %}
+        <meta http-equiv="refresh" content="3;{% url 'loginview' %}" />
+    {% endblock %}
+    <meta charset="UTF-8">
+    {% block head %}
+    <title>Login Falhado</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="w3-center" style="padding: 150px">
+    <h1>Login Falhado</h1>
+    <h2>Tente novamente...</h2>
+    </div>
+{% endblock %}
+</body>
+</html>

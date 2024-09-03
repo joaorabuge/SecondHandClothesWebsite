@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block vazio %}
+        <meta http-equiv="refresh" content="3;{% url 'loginSite' %}" />
+    {% endblock %}
+    <meta charset="UTF-8">
+    {% block head %}
+    <title>Registado com Sucesso</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="w3-center" style="padding: 150px">
+    <h1>Foi registado com sucesso!</h1>
+    <h2>Pode fazer login e explorar o nosso site</h2>
+    </div>
+{% endblock %}
+</body>
+</html>

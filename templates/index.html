@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Index</title>
+    {% endblock %}
+    {% load static %}
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'loja/style.css' %}"/>-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static 'loja/scripts.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+        .w3-bar-block .w3-bar-item {padding:20px}
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block vazio %}
+    {% endblock %}
+</head>
+<body>
+
+
+<!-- Sidebar (hidden by default) -->
+<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()"
+  class="w3-bar-item w3-button">Fechar</a>
+  <a href="{% url 'index' %}" onclick="w3_close()" class="w3-bar-item w3-button">Roupas</a>
+  <a href="#sobre" onclick="w3_close()" class="w3-bar-item w3-button">Sobre</a>
+  <form action="{% url 'indexfiltered' %}" method="post" enctype="multipart/form-data" class="w3-bar-item">
+    {% csrf_token %}
+    <input list="lista" name="pesquisa" placeholder="Pesquisar..">
+        <datalist id="lista">
+          {% for roupas in listaRoupa %}
+              <option value="{{ roupas.marca }}">
+          {% endfor %}
+        </datalist>
+    <button class="w3-button" type="submit"><i class="fa fa-search"></i></button>
+  </form>
+  <a href="{% url 'indexsortedup' %}" onclick="w3_close()" class="w3-bar-item w3-button">Ordenar por preço ▲</a>
+  <a href="{% url 'indexsorteddown' %}" onclick="w3_close()" class="w3-bar-item w3-button">Ordenar por preço ▼</a>
+  {% if request.user.is_authenticated %}
+    <a href="{% url 'logoutSite' %}" onclick="w3_close()" class="w3-bar-item w3-button" style="position: absolute; bottom: 0">Logout</a>
+    <a href="{% url 'perfil' %}" onclick="w3_close()" class="w3-bar-item w3-button" style="position: absolute; bottom: 76px">Olá {{ request.user.username }}</a>
+  {% else %}
+    <a href="{% url 'loginSite' %}" onclick="w3_close()" class="w3-bar-item w3-button" style="position: absolute; bottom: 76px">Login</a>
+    <a href="{% url 'registarSite' %}" onclick="w3_close()" class="w3-bar-item w3-button" style="position: absolute; bottom: 0">Registar</a>
+  {% endif %}
+</nav>
+
+<!-- Top menu -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    {% if request.user.is_authenticated %}
+      <div class="w3-right w3-padding-16">
+      <input type="image" class="btn1" src="{% static 'loja/cart.png' %}" style="width:100%;height: 30px;width: auto" alt="Não há carrinho" />
+          <div id="cart" style="display: none;background-color: white">
+            {% if listaCompras %}
+                {% for roupas in listaCompras %}
+                    <div class="carrinhooo" style="background-color: white;border: 50px;border-color: black;white-space: nowrap">
+                     <a href="{% url 'especificacoes' roupas.id %}" style="text-decoration: none; border: 0" >
+                        <div class="w3-quarter" style="display:inline-block;vertical-align:top;padding-right: 35px">
+                            <img src="{{ roupas.imagem.url }}" alt="" style="width:100%;height: 30px;width: auto">
+                        </div>
+                        <div style="display:inline-block">
+                            <small>{{ roupas.marca }} {{ roupas.tamanho }} - {{ roupas.preco }}€</small></a>
+                            <a href="{% url 'apagardocarrinho' roupas.id %}" style="text-decoration: none; border: 0" >
+                                <small style="color: red">X</small></a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <p> <a href="{% url 'checkout' %}"> <button class="w3-bar-item w3-button">Fazer checkout</button></a> </p>
+            {% else %}
+                <p>Carrinho vazio</p>
+            {% endif %}
+          </div>
+      </div>
+    {% endif %}
+
+        <div class="w3-center w3-padding-16">
+            <a href="{% url 'index' %}" style="text-decoration: none; border: 0">
+                Lojaaaaaa
+            </a>
+        </div>
+
+</div>
+</div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+{% block content %}
+
+{% if listaRoupa %}
+      <!-- First Photo Grid-->
+    <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+        {% if listaRoupa %}
+            {% for roupas in listaRoupa %}
+                <div class="w3-quarter">
+                    <a href="{% url 'especificacoes' roupas.id %}" style="text-decoration: none; border: 0" >
+                    <img src="{{ roupas.imagem.url }}" alt="" style="width:100%;height: 300px;width: auto">
+                    </a>
+                    <h3>{{ roupas.marca }} {{ roupas.tamanho }}</h3>
+                    <p>{{ roupas.preco }}€</p>
+                </div>
+            {% endfor %}
+            {% if request.user.is_authenticated %}
+                <div class="w3-quarter">
+                    <a href="{% url 'adicionaranuncio' %}" style="text-decoration: none; border: 0">
+                    <img src="{% static 'loja/novoanuncio.jpg' %}" alt="" style="width:100%;height: 300px;width: auto">
+                    </a>
+                    <h3></h3>
+                    <p></p>
+                </div>
+                {% endif %}
+        {% endif %}
+    </div>
+{% else %}
+    <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+
+        <div class="w3-quarter">
+            <img src="{% static 'loja/naoha.jpg' %}" alt="" style="width:100%;height: 300px;width: auto">
+            <h3></h3>
+            <p></p>
+        </div>
+        <div class="w3-quarter">
+            <a href="{% url 'criarAnuncio' %}" style="text-decoration: none; border: 0">
+            <img src="{% static 'loja/novoanuncio.jpg' %}" alt="" style="width:100%;height: 300px;width: auto">
+            </a>
+            <h3></h3>
+            <p></p>
+        </div>
+
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block sobre %}
+  <hr id="sobre">
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32 w3-center">
+    <h3>Sobre nós, a Lojaaaaaaa</h3><br>
+    <div class="w3-padding-32">
+      <h4><b>Os melhores Smartphones recondicionados!</b></h4>
+      <h6><i>Dá uma nova vida ao seu Smartphone</i></h6>
+      <p>Somos uma simples loja de Smartphones em segunda mão. Tu pões à venda e é vendido um instante. Faz dinheiro com o que já não usas!</p>
+    </div>
+  </div>
+  <hr>
+{% endblock %}
+
+
+
+  <!-- Footer -->
+  <footer class="w3-row-padding w3-padding-32">
+    <div class="w3-third">
+      <h3>Fundadores</h3>
+      <p>João Bastos, Nº98957</p>
+      <p>João Diogo, Nº98505</p>
+      <p>Luís Souto, Nº98013</p>
+      <p>Apoiado por <a href="https://www.iscte-iul.pt/" target="_blank">ISCTE</a></p>
+    </div>
+
+    <div class="w3-third">
+      <h3>DIAM</h3>
+      <ul class="w3-ul w3-hoverable">
+        <li class="w3-padding-16">
+          <span class="w3-large">Docente</span><br>
+          <span>Tomás Brandão</span>
+        </li>
+        <li class="w3-padding-16">
+          <span class="w3-large">Cadeira</span><br>
+          <span>Desenvolvimento para A Internet e Aplicações Móveis</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="w3-third w3-serif">
+       <img src="{% static 'loja/iscte.png' %}" class="w3-left w3-margin-right" style="width:100%;height: 250px;width: auto;padding-left: 100px">
+    </div>
+  </footer>
+
+
+<!-- End page content -->
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+$(document).ready(function(){
+  $(".btn1").click(function(){
+    $("#cart").slideToggle('slow');
+  });
+});
+</script>
+</div>
+
+
+</body>
+</html>

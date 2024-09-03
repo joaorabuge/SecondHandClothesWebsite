@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Página de Login</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+
+
+<div class="w3-container w3-padding-32 w3-center">
+
+    <div class="w3-padding-32">
+        <h2>Bem vindo à Lojaaaaaaa</h2><br>
+        <h3>Login</h3><br>
+        <div class="container" style="align-content: center;background-color: white;border: 50px;border-color: black;white-space: nowrap">
+            <form action="{% url 'loginview' %}" method="post">
+                {% csrf_token %}
+
+                <input type="text" placeholder="Nome de Utilizador" name="username" required>
+                <br>
+                <br>
+                <input type="password" placeholder="Palavra-Passe" name="password" required>
+                <br>
+                <br>
+                <input class="w3-bar-item w3-button" type="submit" value="Entrar">
+            </form>
+            <p> <a href="{% url 'registerview' %}"> <button class="w3-bar-item w3-button">Ainda não tem conta? Registe-se aqui!</button></a></p>
+        </div>
+        <br>
+        <p> <a href="{% url 'index' %}"> <button class="w3-bar-item w3-button">Voltar á página inicial</button></a> </p>
+    </div>
+</div>
+
+
+{% endblock %}
+</body>
+</html>

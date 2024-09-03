@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+        <meta charset="UTF-8">
+        <title>Pesquisa</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+{% if marca_filtrada %}
+      <!-- First Photo Grid-->
+    <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+        {% if marca_filtrada %}
+            {% for roupas in marca_filtrada %}
+                <div class="w3-quarter">
+                    <a href="{% url 'especificacoes' roupas.id %}" style="text-decoration: none; border: 0" >
+                    <img src="{{ roupas.imagem.url }}" alt="" style="width:100%;height: 300px;width: auto">
+                    </a>
+                    <h3>{{ roupas.marca }} {{ roupas.tamanho }}</h3>
+                    <p>{{ roupas.preco }}€</p>
+                </div>
+            {% endfor %}
+            {% if request.user.is_authenticated %}
+                <div class="w3-quarter">
+                    <a href="{% url 'adicionaranuncio' %}" style="text-decoration: none; border: 0">
+                    <img src="static/loja/novoanuncio.jpg" alt="" style="width:100%;height: 300px;width: auto">
+                    </a>
+                    <h3></h3>
+                    <p></p>
+                </div>
+                {% endif %}
+        {% endif %}
+    </div>
+{% else %}
+    <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+
+        <div class="w3-quarter">
+            <img src="static/loja/pesquisafalhada.jpg" alt="" style="width:100%;height: 300px;width: auto">
+            <h3></h3>
+            <p></p>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block vazio %}
+        <meta http-equiv="refresh" content="3;{% url 'loginSite' %}" />
+    {% endblock %}
+    <meta charset="UTF-8">
+    {% block head %}
+    <title>Login Necessário</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="w3-center" style="padding: 150px">
+    <h1>Login Necessário</h1>
+    <h2>Para realizar esta ação, necessita de estar autenticado</h2>
+    </div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    {% endblock %}
+</head>
+<body>
+
+{% block content %}
+<div class="foto" style="padding-top: 50px">
+    <img src="{{ usuario.foto.url }}" alt="" style="width:100%;height: 350px;width: auto;display:inline-block;vertical-align:top;padding-right: 50px"></a>
+    <div class="detalhe" style="display:inline-block">
+        <h3 style=" text-transform: uppercase;">{{ request.user.username }}</h3>
+        <h3>{{ request.user.email }}</h3>
+        <h4>Fã da Marca: {{ usuario.marca }}</h4>
+        <br>
+        <br>
+        <br>
+        <br>
+        <form action="{% url 'alterarpass' %}" method="post">
+            {% csrf_token %}
+            <input type="password" placeholder="Alterar a Password" name="pass" required>
+            <input class="w3-bar-item w3-button" type="submit" value="Alterar">
+        </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <a href="{% url 'apagarperfil' %}" class="btn btn-primary">Apagar conta</a>
+    </div>
+</div>
+{% endblock %}
+
+</body>
+</html>

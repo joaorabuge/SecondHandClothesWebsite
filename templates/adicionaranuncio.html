@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Criar um novo anuncio</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="w3-container w3-padding-32 w3-center">
+        <div class="w3-padding-32">
+            <h2>Criar um novo Anúncio</h2><br>
+            <h3>Informações sobre a peça de roupa</h3><br>
+            <div class="container" style="align-content: center;background-color: white;border: 50px;border-color: black;white-space: nowrap">
+                <form action="{% url 'criarAnuncio' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Marca" name="marca" required>
+                    <br>
+                    <br>
+                    <input type="text" placeholder="Tamanho" name="tamanho" required>
+                    <br>
+                    <br>
+                    <input type="number" placeholder="Preço €" name="preco" required>
+                    <br>
+                    <br>
+                    <input list="estado" name="estado" placeholder="Estado">
+                        <datalist id="condicoes">
+                            <option value="Ótima">
+                            <option value="Boa">
+                            <option value="Mais ou menos">
+                            <option value="Má">
+                            <option value="Muito má">
+                        </datalist>
+                    <br>
+                    <br>
+                    <textarea placeholder="Descrição" name="descricao" rows="4" cols="50"></textarea>
+                    <br>
+                    <br>
+                    <label>Fotografia</label>
+                    <input class="w3-bar-item w3-button" type="file" value="Submit" name="img" required>
+                    <br>
+                    <br>
+                    <input class="w3-bar-item w3-button" type="submit" value="Criar" style="font-size: large">
+                    <br/>
+                    <br>
+                </form>
+            </div>
+        <br>
+    <p> <a href="{% url 'index' %}"> <button class="w3-bar-item w3-button">Voltar á página inicial</button></a> </p>
+    </div>
+    </div>
+{% endblock %}
+</body>
+</html>

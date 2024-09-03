@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "index.html" %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Página de Registo</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <div class="w3-container w3-padding-32 w3-center">
+        <div class="w3-padding-32">
+            <h2>Bem vindo à Lojaaaaaaa</h2><br>
+            <h3>Registar</h3><br>
+            <div class="container" style="align-content: center">
+                <form action="{% url 'registarSite' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Nome de Utilizador" name="username" required>
+                    <br>
+                    <br>
+                    <input type="text" placeholder="E-Mail" name="mail" required>
+                    <br>
+                    <br>
+                    <input type="password" placeholder="Palavra Passe" name="pass" required>
+                    <br>
+                    <br>
+                    <input type="text" placeholder="Fã da Marca: p.e. Apple" name="brand">
+                    <br>
+                    <br>
+                    <label>Fotografia</label>
+                    <input class="w3-bar-item w3-button" type="file" value="Submit" name="img" required>
+                    <br>
+                    <br>
+                    <input class="w3-bar-item w3-button" type="submit" value="Registar">
+                    <br/>
+                    <br>
+                </form>
+                <p> <a href="{% url 'loginSite' %}"> <button class="w3-button">Se já tem uma conta, faça login aqui.</button></a> </p>
+            </div>
+        <br>
+    <p> <a href="{% url 'index' %}"> <button class="w3-button">Voltar á página inicial</button></a> </p>
+    </div>
+    </div>
+{% endblock %}
+</body>
+</html>
